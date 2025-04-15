@@ -16,7 +16,7 @@ export default function PredictionsPage() {
     formData.append('file', file)
 
     try {
-      const response = await fetch('http://localhost:8000/predict/', {
+      const response = await fetch('http://159.223.159.219:8000/predict/', {
         method: 'POST',
         body: formData,
       })
