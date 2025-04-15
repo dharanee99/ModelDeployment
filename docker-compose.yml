@@ -1,0 +1,32 @@
+version: '3.8'  # Use version 3.8 for resource constraints
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend  # Frontend depends only on backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 3G  # Set the upper memory limit to 3GB (or higher if needed)
+        reservations:
+          memory: 3G  # Reserve 3GB memory for this container to start with
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend  # Nginx depends on the frontend (it needs to reverse proxy the frontend)
